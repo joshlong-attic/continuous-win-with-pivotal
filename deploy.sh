@@ -77,8 +77,6 @@ function reset(){
 ### INSTALLATION STEPS
 ###
 
-
-
 login
 reset
 deploy_config_service
