@@ -1,7 +1,7 @@
 ---
 applications:
 - name: reservation-client
-  memory: 512M
+  memory: 1024M
   instances: 1
   host: reservation-client-${random-word}
   domain: cfapps.io

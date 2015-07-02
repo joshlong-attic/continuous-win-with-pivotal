@@ -1,7 +1,7 @@
 ---
 applications:
 - name: reservation-service
-  memory: 512M
+  memory: 1024M
   instances: 1
   host: reservation-service-${random-word}
   domain: cfapps.io
@@ -11,7 +11,7 @@ applications:
     - config-service
     - eureka-service
     - bootiful-newrelic
-    - bootiful-papertrail    
+    - bootiful-papertrail
   env:
     SPRING_PROFILES_ACTIVE: cloud
     DEBUG: "true"
