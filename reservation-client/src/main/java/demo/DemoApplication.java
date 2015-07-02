@@ -58,7 +58,7 @@ class ReservationIntegration {
 @RestController
 class ReservationNamesRestController {
 
-    @RequestMapping("/rs")
+    @RequestMapping("/names")
     Collection<String> rs() {
         return this.reservationIntegration.getReservationNames();
     }
