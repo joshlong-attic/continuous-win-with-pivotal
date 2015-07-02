@@ -10,6 +10,8 @@ applications:
     - reservations-postgresql
     - config-service
     - eureka-service
+    - bootiful-newrelic
+    - bootiful-papertrail    
   env:
     SPRING_PROFILES_ACTIVE: cloud
     DEBUG: "true"
