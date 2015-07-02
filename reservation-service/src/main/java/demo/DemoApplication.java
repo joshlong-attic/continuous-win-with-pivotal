@@ -10,9 +10,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.Entity;
@@ -53,7 +55,9 @@ class ReservationRestController {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    @RequestMapping("/reservations")
+    @RequestMapping(value = "/reservations",
+            produces = MediaType.APPLICATION_JSON_VALUE ,
+            method = RequestMethod.GET)
     Collection<Reservation> reservations() {
         return this.reservationRepository.findAll();
     }
