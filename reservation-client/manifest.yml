@@ -8,6 +8,8 @@ applications:
   path: target/reservation-client.jar
   services:
     - config-service
+    - bootiful-newrelic
+    - bootiful-papertrail
     - eureka-service
   env:
     SPRING_PROFILES_ACTIVE: cloud

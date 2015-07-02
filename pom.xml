@@ -11,7 +11,5 @@
         <module>config-service</module>
         <module>reservation-service</module>
         <module>eureka-service</module>
-
     </modules>
-
 </project>
