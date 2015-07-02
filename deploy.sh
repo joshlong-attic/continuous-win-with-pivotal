@@ -1,9 +1,6 @@
 #!/bin/bash
-set -e
 
-#
-# the big CloudFoundry installer
-#
+set -e
 
 CLOUD_DOMAIN=${DOMAIN:-run.pivotal.io}
 CLOUD_TARGET=api.${DOMAIN}
@@ -14,18 +11,14 @@ function login(){
 }
 
 function app_domain(){
-    D=`cf apps | grep $1 | tr -s ' ' | cut -d' ' -f 6 | cut -d, -f1`
-    echo $D
+    echo `cf apps | grep $1 | tr -s ' ' | cut -d' ' -f 6 | cut -d, -f1`
 }
 
 function deploy_app(){
-    # common to all nodes
-
     APP_NAME=$1
     cd $APP_NAME
     cf push $APP_NAME  --no-start
     APPLICATION_DOMAIN=`app_domain $APP_NAME`
-    echo determined that application_domain for $APP_NAME is $APPLICATION_DOMAIN.
     cf env $APP_NAME | grep APPLICATION_DOMAIN || cf set-env $APP_NAME APPLICATION_DOMAIN $APPLICATION_DOMAIN
     cf restart $APP_NAME
     cd ..
@@ -51,7 +44,6 @@ function deploy_eureka_service(){
     deploy_service $NAME
 }
 
-
 function deploy_reservation_service(){
     cf cs elephantsql turtle reservations-postgresql
     deploy_app reservation-service
@@ -63,7 +55,6 @@ function deploy_reservation_client(){
 
 function reset(){
 
-    echo "reset.."
     apps="reservation-service reservation-client config-service eureka-service"
     apps_arr=( $apps )
     for a in "${apps_arr[@]}";
@@ -76,9 +67,10 @@ function reset(){
     services_arr=( $services )
     for s in "${services_arr[@]}";
     do
-        echo $s
         cf ds -f $s
     done
+
+    cf delete-orphaned-routes -f
 }
 
 ###
@@ -87,11 +79,9 @@ function reset(){
 
 mvn -DskipTests=true clean install
 
-#login
-#reset
-#deploy_configuration_service
-#deploy_eureka_service
-deploy_dashboard_service
-#deploy_contact_service
-#deploy_bookmark_service
-#deploy_passport_service
+login
+reset
+deploy_config_service
+deploy_eureka_service
+deploy_reservation_service
+deploy_reservation_client

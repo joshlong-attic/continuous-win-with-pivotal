@@ -30,35 +30,6 @@ import java.util.stream.Collectors;
 @EnableZuulProxy
 public class DemoApplication {
 
-    @Bean
-    CommandLineRunner dc(DiscoveryClient dc) {
-        return args ->
-                dc.getInstances("reservation-service")
-                        .forEach(si -> System.out.println(
-                                si.getHost() + ':' + si.getPort()));
-    }
-
-    @Bean
-    CommandLineRunner rt(RestTemplate restTemplate) {
-        return args -> {
-            ParameterizedTypeReference<List<Reservation>> ptr
-                    = new ParameterizedTypeReference<List<Reservation>>() {
-            };
-
-            List<Reservation> reservations = restTemplate.exchange(
-                    "http://reservation-service/reservations",
-                    HttpMethod.GET, null, ptr).getBody();
-
-            reservations.forEach(System.out::println);
-        };
-    }
-
-    @Bean
-    CommandLineRunner feign(ReservationsRestClient client) {
-        return args ->
-                client.getReservations().forEach(System.out::println);
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
@@ -82,7 +53,6 @@ class ReservationIntegration {
                 .map(Reservation::getReservationName)
                 .collect(Collectors.toList());
     }
-
 }
 
 @RestController
@@ -123,15 +93,7 @@ class Reservation {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getReservationName() {
         return reservationName;
     }
-
-    public void setReservationName(String reservationName) {
-        this.reservationName = reservationName;
-    }
-}
+ }
