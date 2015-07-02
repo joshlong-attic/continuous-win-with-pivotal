@@ -77,7 +77,7 @@ function reset(){
 ### INSTALLATION STEPS
 ###
 
-mvn -DskipTests=true clean install
+
 
 login
 reset
