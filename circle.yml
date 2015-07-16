@@ -32,9 +32,10 @@ general:
     ignore:
       - gh-pages
 
-# test:
-#   override:
-#     - mvn -Dci.artifacts=$CIRCLE_ARTIFACTS  install
+test:
+  override:
+    - mvn install -f reservation-service/pom.xml
+    - mvn install -f reservation-client/pom.xml 
 
 deployment:
 
