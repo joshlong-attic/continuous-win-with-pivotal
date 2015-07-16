@@ -26,8 +26,6 @@ dependencies:
   pre:
     - ./install-cli.sh
     - ./install-cf.sh
-  override:
-    - mvn -DskipTests=true install
 
 general:
   branches:
