@@ -8,7 +8,7 @@ machine:
     SELENIUM_PLATFORM: WINDOWS
     SELENIUM_BROWSER: Chrome
     SWAP: $CI_TARGET
-    PATH: $PATH/$HOME/$CIRCLE_PROJECT_REPONAME/spring-cli/bin
+    PATH: $PATH:$HOME/$CIRCLE_PROJECT_REPONAME/spring-cli/bin
 
   java:
     version: oraclejdk8
