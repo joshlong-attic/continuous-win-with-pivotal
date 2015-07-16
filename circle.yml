@@ -1,8 +1,5 @@
 
 machine:
-  pre:
-    - ./install-cli.sh
-    - ./install-cf.sh
 
   environment:
     SELENIUM_PORT: 80
@@ -25,6 +22,9 @@ checkout:
 
 
 dependencies:
+  pre:
+    - ./install-cli.sh
+    - ./install-cf.sh
   override:
     - mvn -DskipTests=true install
 
