@@ -1,20 +1,22 @@
 package demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.MediaType;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.Entity;
@@ -24,81 +26,44 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @EnableDiscoveryClient
-@SpringBootApplication // @IWantToGoHomeEarly
+@SpringBootApplication
 public class DemoApplication {
+
+    @Bean
+    HealthIndicator myCustomHealthIndicator() {
+        return () -> Health.status("I <3 Shanghai!").build();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
+}
 
-    @Bean
-    HealthIndicator ccc() {
-        return () -> Health.status("I <3 Chicago!").build();
-    }
+@RefreshScope
+@RestController
+class MessageRestController {
 
-    @Bean
-    CommandLineRunner runner(ReservationRepository rr) {
-        return args -> {
+    @Value("${message}")
+    private String message;
 
-            Arrays.asList("Heath,Jeff,Josh,Rod,Juergen,Charlie".split(","))
-                    .forEach(n -> rr.save(new Reservation(n)));
-
-            rr.findAll().forEach(System.out::println);
-
-        };
+    @RequestMapping("/message")
+    String getMessage() {
+        return this.message;
     }
 }
 
-@RestController
-class ReservationRestController {
+@Component
+class ReservationCLR implements CommandLineRunner {
 
     @Autowired
     private ReservationRepository reservationRepository;
 
-    @RequestMapping(value = "/reservations",
-            produces = MediaType.APPLICATION_JSON_VALUE ,
-            method = RequestMethod.GET)
-    Collection<Reservation> reservations() {
-        return this.reservationRepository.findAll();
-    }
-
-}
-
-interface ReservationRepository extends JpaRepository<Reservation, Long> {
-
-    Collection<Reservation> findByReservationName(String rn);
-}
-
-
-@Entity
-class Reservation {
-
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String reservationName;
-
-    public Reservation() { // why JPA why???
-    }
-
     @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", reservationName='" + reservationName + '\'' +
-                '}';
-    }
+    public void run(String... strings) throws Exception {
+        Arrays.asList("josh,frank,juergen,dan".split(","))
+                .forEach(x -> this.reservationRepository.save(new Reservation(x)));
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getReservationName() {
-        return reservationName;
-    }
-
-    public Reservation(String reservationName) {
-        this.reservationName = reservationName;
+        this.reservationRepository.findByReservationNameIgnoreCase(
+                "josh").forEach(System.out::println);
     }
 }

@@ -9,4 +9,4 @@ applications:
   env:
     SPRING_PROFILES_ACTIVE: cloud
     DEBUG: "true"
-    SPRING_CLOUD_CONFIG_SERVER_GIT_URI: https://github.com/joshlong/continuous-win-with-pivotal-config
+    SPRING_CLOUD_CONFIG_SERVER_GIT_URI: https://github.com/joshlong/bootiful-microservices-config
