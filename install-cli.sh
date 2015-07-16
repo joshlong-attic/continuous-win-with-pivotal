@@ -11,4 +11,6 @@ cd spring-cli && echo "`pwd`"
 
 cd ..
 echo $PATH
+
 spring --version
+spring install org.springframework.cloud:spring-cloud-cli:1.0.3.RELEASE
