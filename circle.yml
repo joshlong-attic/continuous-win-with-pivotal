@@ -35,7 +35,7 @@ general:
 test:
   override:
     - mvn install -f reservation-service/pom.xml
-    - mvn install -f reservation-client/pom.xml 
+    - mvn install -f reservation-client/pom.xml
 
 deployment:
 
