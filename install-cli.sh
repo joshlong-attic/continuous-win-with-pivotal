@@ -7,5 +7,8 @@ curl http://repo.spring.io/release/org/springframework/boot/spring-boot-cli/1.2.
 tar zxpf cli.tgz
 
 mv spring-1.2.5.RELEASE spring-cli
-cd spring-cli
-echo "`pwd`"
+cd spring-cli && echo "`pwd`"
+
+cd ..
+echo $PATH
+spring --version
