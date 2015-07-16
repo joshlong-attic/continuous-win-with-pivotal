@@ -34,9 +34,9 @@ general:
     ignore:
       - gh-pages
 
-# dependencies:
-#   cache_directories:
-#     - spring-cli
+dependencies:
+  cache_directories:
+    - spring-cli
 
 # test:
 #   override:
@@ -47,4 +47,4 @@ deployment:
   production:
     branch: master
     commands:
-      - ./deploy.sh
+      - ./deploy-to-cloudfoundry.sh
