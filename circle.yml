@@ -32,10 +32,6 @@ general:
     ignore:
       - gh-pages
 
-dependencies:
-  cache_directories:
-    - spring-cli
-
 # test:
 #   override:
 #     - mvn -Dci.artifacts=$CIRCLE_ARTIFACTS  install
