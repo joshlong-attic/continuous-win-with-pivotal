@@ -8,4 +8,4 @@ tar zxpf cli.tgz
 
 mv spring-1.2.5.RELEASE spring-cli
 cd spring-cli
-echo `pwd`
+echo "`pwd`"
